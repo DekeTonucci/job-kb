@@ -71,7 +71,7 @@ async function getPageData(url, page) {
 
   return {
     title: modifiedTitle,
-    name: companyName,
+    company: companyName,
     location,
     date,
   };

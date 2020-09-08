@@ -6,6 +6,7 @@ const zipcode = '18974'; // 5 digit code
 const radius = '5'; // 5 - 10 - 15 - 25 - 50 - 100
 const experienceLevel = 'entry_level'; // entry_level - mid_level - senior_level
 
+// For testing different indeed urls and parameters for now
 const indeedURL = `https://www.indeed.com/jobs?q=${keyword}+${minSalary}&l=${zipcode}&radius=${radius}&explvl=${experienceLevel}&sort=date`;
 const indeedRemoteURL = `https://www.indeed.com/jobs?q=${keyword}+${minSalary}&l=${zipcode}&explvl=${experienceLevel}&sort=date`;
 
@@ -27,6 +28,11 @@ const indeedRemoteURL = `https://www.indeed.com/jobs?q=${keyword}+${minSalary}&l
   }
 
   console.log({ scrapedData });
+
+  // Find users list of jobs
+  // Search to see if any of the jobs are currently already included in the Board
+  // Search each list for each job
+  // If not found on the board, save each job as a New Job in the New Jobs list
 
   await browser.close();
 })();
