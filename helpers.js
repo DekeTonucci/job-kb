@@ -15,6 +15,25 @@ async function getLinks(url, page) {
 async function getPageData(url, page) {
   await page.goto(url[0]);
 
+  // Look for job by date of 'just posted' or 'today'
+  // This will hopefully represent the most recent jobs
+  let findDate;
+  try {
+    findDate = await page.$eval(
+      'div.jobsearch-JobTab-content > div.jobsearch-JobMetadataFooter',
+      (date) => date.textContent
+    );
+  } catch (error) {
+    console.log('Error finding date: ', error);
+  }
+  // console.log({ findDate });
+  let date;
+  if (findDate.includes('Just posted') || findDate.includes('Today')) {
+    date = Date.now();
+  } else {
+    date = 'old';
+  }
+
   // Get title of the job position
   const title = await page.$eval(
     'h1.jobsearch-JobInfoHeader-title',
@@ -45,7 +64,7 @@ async function getPageData(url, page) {
     );
   } catch (error) {
     location = await page.$eval(
-      '  .jobsearch-InlineCompanyRating > div:nth-child(3)',
+      '.jobsearch-InlineCompanyRating > div:nth-child(3)',
       (link) => link.textContent
     );
   }
@@ -54,6 +73,7 @@ async function getPageData(url, page) {
     title: modifiedTitle,
     name: companyName,
     location,
+    date,
   };
 }
 
